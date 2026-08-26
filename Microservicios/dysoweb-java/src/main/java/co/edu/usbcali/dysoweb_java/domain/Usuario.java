@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Usuario {
 
     //Mapeo Obejto relacional

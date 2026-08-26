@@ -38,4 +38,16 @@ public class Publicacion {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
 }
