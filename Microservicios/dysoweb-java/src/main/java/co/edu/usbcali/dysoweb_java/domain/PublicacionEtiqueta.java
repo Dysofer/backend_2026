@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table (name="publicacion_etiquetas")
 public class PublicacionEtiqueta {
 
     @Id

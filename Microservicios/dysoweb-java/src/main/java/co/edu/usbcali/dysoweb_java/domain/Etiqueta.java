@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-// Patron Decorador
 @Entity
 @Table(name = "etiquetas")
 @Data
@@ -16,12 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Etiqueta {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-@Column(name = "nombre", nullable = false, length = 100)
-private String nombre;
-
+    @Column(name = "nombre", nullable = false, length = 100)
+    private String nombre;
 
 }

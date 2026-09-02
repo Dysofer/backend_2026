@@ -1,5 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table (name="actividad_historial")
 public class ActividadHistorial {
 
     @Id

@@ -1,6 +1,5 @@
 package co.edu.usbcali.dysoweb_java.domain;
-
-import co.edu.usbcali.dysoweb_java.domain.enums.VisibilidadPerfil;
+import co.edu.usbcali.santiagoweb.domain.enums.VisibilidadPerfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
+@Entity
+@Table(name="perfiles")
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,11 +17,11 @@ import java.time.LocalDateTime;
 public class Perfil {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name="usuario_id", nullable = false)
     private Usuario usuario;
 
     @Column(name = "nombre", nullable = true, length = 150)
@@ -43,7 +45,7 @@ public class Perfil {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "update_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -57,5 +59,4 @@ public class Perfil {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

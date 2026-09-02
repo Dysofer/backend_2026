@@ -1,6 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
-import co.edu.usbcali.dysoweb_java.domain.enums.PrivacidadPublicacion;
+import co.edu.usbcali.santiagoweb.domain.enums.PrivacidadPublicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name="publicaciones")
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,15 +18,15 @@ import java.time.LocalDateTime;
 public class Publicacion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "autor_id", nullable = false)
+    @JoinColumn(name="autor_id", nullable = false)
     private Usuario autor;
 
-    @Column(name = "contenido")
-    private String contenido;
+    @Column(name="contenido")
+    private String Contenido;
 
     @Column(name = "privacidad", nullable = false)
     private PrivacidadPublicacion privacidad;
@@ -32,10 +34,10 @@ public class Publicacion {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "update_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
+    @Column (name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @PrePersist
@@ -49,5 +51,5 @@ public class Publicacion {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }
+

@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table (name="bloqueos")
 public class Bloqueo {
 
     @Id
