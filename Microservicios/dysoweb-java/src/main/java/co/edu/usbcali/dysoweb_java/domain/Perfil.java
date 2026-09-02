@@ -1,5 +1,5 @@
 package co.edu.usbcali.dysoweb_java.domain;
-import co.edu.usbcali.santiagoweb.domain.enums.VisibilidadPerfil;
+import co.edu.usbcali.dysoweb_java.domain.enums.VisibilidadPerfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
