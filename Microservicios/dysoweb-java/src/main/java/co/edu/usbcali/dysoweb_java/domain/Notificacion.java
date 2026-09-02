@@ -1,6 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
-import co.edu.usbcali.santiagoweb.domain.enums.TipoNotificacion;
+import co.edu.usbcali.dysoweb_java.domain.enums.TipoNotificacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

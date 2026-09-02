@@ -1,6 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
-import co.edu.usbcali.santiagoweb.domain.enums.TipoReaccion;
+import co.edu.usbcali.dysoweb_java.domain.enums.TipoReaccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

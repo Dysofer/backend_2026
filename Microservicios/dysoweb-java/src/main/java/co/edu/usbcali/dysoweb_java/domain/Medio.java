@@ -1,6 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
-import co.edu.usbcali.santiagoweb.domain.enums.TipoMedio;
+import co.edu.usbcali.dysoweb_java.domain.enums.TipoMedio;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

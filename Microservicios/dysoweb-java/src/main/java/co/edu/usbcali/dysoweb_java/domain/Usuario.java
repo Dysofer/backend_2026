@@ -21,13 +21,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nombre", nullable = false, length = 150)
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(name = "pasword_hash", nullable = false, length = 225)
+    @Column(name = "password_hash", nullable = false, length = 225)
     private String passwordHash;
 
     @Column(name = "last_login", nullable = true)
@@ -36,7 +36,7 @@ public class Usuario {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist

@@ -1,6 +1,6 @@
 package co.edu.usbcali.dysoweb_java.domain;
 
-import co.edu.usbcali.santiagoweb.domain.enums.EstadoDenuncia;
+import co.edu.usbcali.dysoweb_java.domain.enums.EstadoDenuncia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

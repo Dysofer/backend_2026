@@ -1,4 +1,4 @@
-package repository;
+package co.edu.usbcali.dysoweb_java.repository;
 
 import co.edu.usbcali.dysoweb_java.domain.Medio;
 import org.springframework.data.jpa.repository.JpaRepository;
