@@ -1,8 +1,11 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
+import co.edu.usbcali.dysoweb_java.domain.Notificacion;
 import co.edu.usbcali.dysoweb_java.domain.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.usbcali.dysoweb_java.repository.UsuarioRepository;
@@ -30,5 +33,11 @@ public class UsuarioController {
     @GetMapping("/obtener-usuario")
     List<Usuario> obtenerUsuarios() {
         return usuarioRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Integer id){
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        return ResponseEntity.ok(usuario);
     }
 }

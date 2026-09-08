@@ -1,8 +1,11 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
 import co.edu.usbcali.dysoweb_java.domain.Medio;
+import co.edu.usbcali.dysoweb_java.domain.Notificacion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.usbcali.dysoweb_java.repository.MedioRepository;
@@ -30,5 +33,11 @@ public class MedioController {
     @GetMapping("/obtener-medios")
     List<Medio> obtenerMedios() {
         return medioRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<Medio> obtenerMedioPorId(@PathVariable Integer id){
+        Medio medio = medioRepository.findById(id).orElse(null);
+        return ResponseEntity.ok(medio);
     }
 }
