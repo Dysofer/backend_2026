@@ -1,9 +1,7 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
-import co.edu.usbcali.dysoweb_java.domain.Etiqueta;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerEtiquetaResponse;
-import co.edu.usbcali.dysoweb_java.mapper.EtiquetaMapper;
-import co.edu.usbcali.dysoweb_java.repository.EtiquetaRepository;
+import co.edu.usbcali.dysoweb_java.service.EtiquetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ import java.util.List;
 public class EtiquetaController {
 
     @Autowired
-    private EtiquetaRepository etiquetaRepository;
+    private EtiquetaService etiquetaService;
 
     @GetMapping("/ping")
     String pingpong() {
@@ -32,21 +30,11 @@ public class EtiquetaController {
 
     @GetMapping("/obtener-etiquetas")
     List<ObtenerEtiquetaResponse> obtenerEtiquetas() {
-        List<Etiqueta> etiquetas = etiquetaRepository.findAll();
-        return EtiquetaMapper.listaEtiquetaHaciaListaObtenerEtiquetaResponse(etiquetas);
+        return etiquetaService.obtenerEtiquetas();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ObtenerEtiquetaResponse> obtenerEtiquetaPorId(@PathVariable Integer id) {
-        Etiqueta etiqueta = etiquetaRepository.findById(id).orElse(null);
-
-        if (etiqueta == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ObtenerEtiquetaResponse etiquetaResponse =
-                EtiquetaMapper.etiquetaObtenerEtiquetaResponse(etiqueta);
-
-        return ResponseEntity.ok(etiquetaResponse);
+    ResponseEntity<ObtenerEtiquetaResponse> obtenerEtiquetaPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(etiquetaService.obtenerEtiquetaPorId(id));
     }
 }

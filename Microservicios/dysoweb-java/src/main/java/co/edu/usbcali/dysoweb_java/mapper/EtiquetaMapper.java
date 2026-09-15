@@ -2,17 +2,13 @@ package co.edu.usbcali.dysoweb_java.mapper;
 
 import co.edu.usbcali.dysoweb_java.domain.Etiqueta;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerEtiquetaResponse;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearEtiquetaRequest;
 
 import java.util.List;
 
 public class EtiquetaMapper {
 
-    // Hace el mapeo para obtener las etiquetas y no traer el objeto de la base de datos
     public static ObtenerEtiquetaResponse etiquetaObtenerEtiquetaResponse(Etiqueta etiqueta) {
-
-        if (etiqueta == null) {
-            return null;
-        }
 
         return new ObtenerEtiquetaResponse(
                 etiqueta.getId(),
@@ -22,5 +18,11 @@ public class EtiquetaMapper {
 
     public static List<ObtenerEtiquetaResponse> listaEtiquetaHaciaListaObtenerEtiquetaResponse(List<Etiqueta> etiquetas) {
         return etiquetas.stream().map(EtiquetaMapper::etiquetaObtenerEtiquetaResponse).toList();
+    }
+
+    public Etiqueta crearEtiquetaRequestAEtiqueta(CrearEtiquetaRequest etiquetaRequest) {
+        return Etiqueta.builder()
+                .nombre(etiquetaRequest.nombre())
+                .build();
     }
 }
