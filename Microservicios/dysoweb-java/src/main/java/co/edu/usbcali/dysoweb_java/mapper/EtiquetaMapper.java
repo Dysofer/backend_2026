@@ -20,9 +20,10 @@ public class EtiquetaMapper {
         return etiquetas.stream().map(EtiquetaMapper::etiquetaObtenerEtiquetaResponse).toList();
     }
 
-    public Etiqueta crearEtiquetaRequestAEtiqueta(CrearEtiquetaRequest etiquetaRequest) {
+    public static Etiqueta crearEtiquetaRequestAEtiqueta(CrearEtiquetaRequest etiquetaRequest) {
         return Etiqueta.builder()
                 .nombre(etiquetaRequest.nombre())
                 .build();
     }
+
 }

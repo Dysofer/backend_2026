@@ -1,15 +1,12 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
-import co.edu.usbcali.dysoweb_java.domain.Perfil;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearPerfilRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerPerfilResponse;
-import co.edu.usbcali.dysoweb_java.mapper.PerfilMapper;
-import co.edu.usbcali.dysoweb_java.repository.PerfilRepository;
+import co.edu.usbcali.dysoweb_java.service.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
 public class PerfilController {
 
     @Autowired
-    private PerfilRepository perfilRepository;
+    private PerfilService perfilService;
 
     @GetMapping("/ping")
     String pingpong() {
@@ -32,21 +29,17 @@ public class PerfilController {
 
     @GetMapping("/obtener-perfiles")
     List<ObtenerPerfilResponse> obtenerPerfiles() {
-        List<Perfil> perfiles = perfilRepository.findAll();
-        return PerfilMapper.listaPerfilHaciaListaObtenerPerfilResponse(perfiles);
+        return perfilService.obtenerPerfiles();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ObtenerPerfilResponse> obtenerPerfilPorId(@PathVariable Integer id) {
-        Perfil perfil = perfilRepository.findById(id).orElse(null);
+    ResponseEntity<ObtenerPerfilResponse> obtenerPerfilPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(perfilService.obtenerPerfilPorId(id));
+    }
 
-        if (perfil == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ObtenerPerfilResponse perfilResponse =
-                PerfilMapper.perfilObtenerPerfilResponse(perfil);
-
-        return ResponseEntity.ok(perfilResponse);
+    @PostMapping("/crear")
+    ResponseEntity<ObtenerPerfilResponse> crearPerfil(@RequestBody CrearPerfilRequest perfilRequest) throws Exception {
+        ObtenerPerfilResponse perfilResponse = perfilService.crearPerfil(perfilRequest);
+        return new ResponseEntity<>(perfilResponse, HttpStatus.CREATED);
     }
 }

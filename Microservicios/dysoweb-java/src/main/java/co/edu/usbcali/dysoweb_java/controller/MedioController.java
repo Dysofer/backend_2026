@@ -1,15 +1,12 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
-import co.edu.usbcali.dysoweb_java.domain.Medio;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearMedioRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerMedioResponse;
-import co.edu.usbcali.dysoweb_java.mapper.MedioMapper;
-import co.edu.usbcali.dysoweb_java.repository.MedioRepository;
+import co.edu.usbcali.dysoweb_java.service.MedioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
 public class MedioController {
 
     @Autowired
-    private MedioRepository medioRepository;
+    private MedioService medioService;
 
     @GetMapping("/ping")
     String pingpong() {
@@ -32,27 +29,17 @@ public class MedioController {
 
     @GetMapping("/obtener-medios")
     List<ObtenerMedioResponse> obtenerMedios() {
-        List<Medio> medios = medioRepository.findAll();
-        return MedioMapper.listaMedioHaciaListaObtenerMedioResponse(medios);
+        return medioService.obtenerMedios();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ObtenerMedioResponse> obtenerMedioPorId(@PathVariable Integer id) {
-        Medio medio = medioRepository.findById(id).orElse(null);
-
-        if (medio == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ObtenerMedioResponse medioResponse =
-                MedioMapper.medioObtenerMedioResponse(medio);
-
-        return ResponseEntity.ok(medioResponse);
+    ResponseEntity<ObtenerMedioResponse> obtenerMedioPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(medioService.obtenerMedioPorId(id));
     }
 
-    @GetMapping("/publicacion/{publicacionId}")
-    List<ObtenerMedioResponse> obtenerMediosPorPublicacionId(@PathVariable Integer publicacionId) {
-        List<Medio> medios = medioRepository.findByPublicacion_IdOrderByOrdenAsc(publicacionId);
-        return MedioMapper.listaMedioHaciaListaObtenerMedioResponse(medios);
+    @PostMapping("/crear")
+    ResponseEntity<ObtenerMedioResponse> crearMedio(@RequestBody CrearMedioRequest medioRequest) throws Exception {
+        ObtenerMedioResponse medioResponse = medioService.crearMedio(medioRequest);
+        return new ResponseEntity<>(medioResponse, HttpStatus.CREATED);
     }
 }

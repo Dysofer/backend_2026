@@ -1,15 +1,12 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
-import co.edu.usbcali.dysoweb_java.domain.Notificacion;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearNotificacionRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerNotificacionResponse;
-import co.edu.usbcali.dysoweb_java.mapper.NotificacionMapper;
-import co.edu.usbcali.dysoweb_java.repository.NotificacionRepository;
+import co.edu.usbcali.dysoweb_java.service.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
 public class NotificacionController {
 
     @Autowired
-    private NotificacionRepository notificacionRepository;
+    private NotificacionService notificacionService;
 
     @GetMapping("/ping")
     String pingpong() {
@@ -32,21 +29,17 @@ public class NotificacionController {
 
     @GetMapping("/obtener-notificaciones")
     List<ObtenerNotificacionResponse> obtenerNotificaciones() {
-        List<Notificacion> notificaciones = notificacionRepository.findAll();
-        return NotificacionMapper.listaNotificacionHaciaListaObtenerNotificacionResponse(notificaciones);
+        return notificacionService.obtenerNotificaciones();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ObtenerNotificacionResponse> obtenerNotificacionPorId(@PathVariable Integer id) {
-        Notificacion notificacion = notificacionRepository.findById(id).orElse(null);
+    ResponseEntity<ObtenerNotificacionResponse> obtenerNotificacionPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(notificacionService.obtenerNotificacionPorId(id));
+    }
 
-        if (notificacion == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ObtenerNotificacionResponse notificacionResponse =
-                NotificacionMapper.notificacionObtenerNotificacionResponse(notificacion);
-
-        return ResponseEntity.ok(notificacionResponse);
+    @PostMapping("/crear")
+    ResponseEntity<ObtenerNotificacionResponse> crearNotificacion(@RequestBody CrearNotificacionRequest notificacionRequest) throws Exception {
+        ObtenerNotificacionResponse notificacionResponse = notificacionService.crearNotificacion(notificacionRequest);
+        return new ResponseEntity<>(notificacionResponse, HttpStatus.CREATED);
     }
 }

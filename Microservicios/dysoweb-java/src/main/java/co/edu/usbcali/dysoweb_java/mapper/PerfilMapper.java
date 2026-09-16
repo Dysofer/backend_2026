@@ -1,6 +1,9 @@
 package co.edu.usbcali.dysoweb_java.mapper;
 
 import co.edu.usbcali.dysoweb_java.domain.Perfil;
+import co.edu.usbcali.dysoweb_java.domain.Usuario;
+import co.edu.usbcali.dysoweb_java.domain.enums.VisibilidadPerfil;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearPerfilRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerPerfilResponse;
 
 import java.util.List;
@@ -30,5 +33,17 @@ public class PerfilMapper {
 
     public static List<ObtenerPerfilResponse> listaPerfilHaciaListaObtenerPerfilResponse(List<Perfil> perfiles) {
         return perfiles.stream().map(PerfilMapper::perfilObtenerPerfilResponse).toList();
+    }
+
+    public static Perfil crearPerfilRequestAPerfil(CrearPerfilRequest perfilRequest, Usuario usuario, VisibilidadPerfil visibilidad) {
+        return Perfil.builder()
+                .usuario(usuario)
+                .nombre(perfilRequest.nombre())
+                .bio(perfilRequest.bio())
+                .avatarUrl(perfilRequest.avatarUrl())
+                .ubicacion(perfilRequest.ubicacion())
+                .enlace(perfilRequest.enlace())
+                .visibilidad(visibilidad)
+                .build();
     }
 }

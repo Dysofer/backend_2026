@@ -2,6 +2,7 @@ package co.edu.usbcali.dysoweb_java.mapper;
 
 import co.edu.usbcali.dysoweb_java.domain.Perfil;
 import co.edu.usbcali.dysoweb_java.domain.Usuario;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearUsuarioRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerUsuarioResponse;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class UsuarioMapper {
         );
     }
 
-    // Versión que incluye el perfil, para usarse cuando ya se tiene el Perfil cargado aparte
+    // Version que incluye el perfil, para usarse cuando ya se tiene el Perfil cargado aparte
     public static ObtenerUsuarioResponse usuarioConPerfilObtenerUsuarioResponse(Usuario usuario, Perfil perfil) {
         return new ObtenerUsuarioResponse(
                 usuario.getId(),
@@ -32,5 +33,13 @@ public class UsuarioMapper {
 
     public static List<ObtenerUsuarioResponse> listaUsuarioHaciaListaObtenerUsuarioResponse(List<Usuario> usuarios) {
         return usuarios.stream().map(UsuarioMapper::usuarioObtenerUsuarioResponse).toList();
+    }
+
+    public static Usuario crearUsuarioRequestAUsuario(CrearUsuarioRequest usuarioRequest) {
+        return Usuario.builder()
+                .email(usuarioRequest.email())
+                .username(usuarioRequest.username())
+                .passwordHash(usuarioRequest.password())
+                .build();
     }
 }

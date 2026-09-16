@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface EtiquetaRepository extends JpaRepository<Etiqueta, Integer> {
 
-    Optional<Etiqueta> findByNombre(String nombre);
+    Boolean existsByNombre(String nombre);
 
 }

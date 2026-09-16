@@ -1,17 +1,12 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
-import co.edu.usbcali.dysoweb_java.domain.Perfil;
-import co.edu.usbcali.dysoweb_java.domain.Usuario;
+import co.edu.usbcali.dysoweb_java.dto.request.CrearUsuarioRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerUsuarioResponse;
-import co.edu.usbcali.dysoweb_java.mapper.UsuarioMapper;
-import co.edu.usbcali.dysoweb_java.repository.PerfilRepository;
-import co.edu.usbcali.dysoweb_java.repository.UsuarioRepository;
+import co.edu.usbcali.dysoweb_java.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +15,7 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PerfilRepository perfilRepository;
+    private UsuarioService usuarioService;
 
     @GetMapping("/ping")
     String pingpong() {
@@ -37,23 +29,17 @@ public class UsuarioController {
 
     @GetMapping("/obtener-usuarios")
     List<ObtenerUsuarioResponse> obtenerUsuarios() {
-        List<Usuario> usuarios = usuarioRepository.findAll();
-        return UsuarioMapper.listaUsuarioHaciaListaObtenerUsuarioResponse(usuarios);
+        return usuarioService.obtenerUsuarios();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ObtenerUsuarioResponse> obtenerUsuarioPorId(@PathVariable Integer id) {
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+    ResponseEntity<ObtenerUsuarioResponse> obtenerUsuarioPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(usuarioService.obtenerUsuarioPorId(id));
+    }
 
-        if (usuario == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Perfil perfil = perfilRepository.findByUsuario_Id(id).orElse(null);
-
-        ObtenerUsuarioResponse usuarioResponse =
-                UsuarioMapper.usuarioConPerfilObtenerUsuarioResponse(usuario, perfil);
-
-        return ResponseEntity.ok(usuarioResponse);
+    @PostMapping("/crear")
+    ResponseEntity<ObtenerUsuarioResponse> crearUsuario(@RequestBody CrearUsuarioRequest usuarioRequest) throws Exception {
+        ObtenerUsuarioResponse usuarioResponse = usuarioService.crearUsuario(usuarioRequest);
+        return new ResponseEntity<>(usuarioResponse, HttpStatus.CREATED);
     }
 }
