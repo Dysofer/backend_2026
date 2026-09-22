@@ -26,7 +26,7 @@ public class Publicacion {
     private Usuario autor;
 
     @Column(name="contenido")
-    private String Contenido;
+    private String contenido;
 
     @Column(name = "privacidad", nullable = false)
     private PrivacidadPublicacion privacidad;
