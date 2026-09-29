@@ -1,19 +1,24 @@
 package co.edu.usbcali.dysoweb_java.controller;
 
+import co.edu.usbcali.dysoweb_java.domain.Usuario;
 import co.edu.usbcali.dysoweb_java.dto.request.CrearUsuarioRequest;
 import co.edu.usbcali.dysoweb_java.dto.response.ObtenerUsuarioResponse;
+import co.edu.usbcali.dysoweb_java.mapper.UsuarioMapper;
 import co.edu.usbcali.dysoweb_java.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import co.edu.usbcali.dysoweb_java.repository.UsuarioRepository;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("usuarios")
 public class UsuarioController {
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private UsuarioService usuarioService;
 
@@ -27,9 +32,13 @@ public class UsuarioController {
         return "ok";
     }
 
+
     @GetMapping("/obtener-usuarios")
     List<ObtenerUsuarioResponse> obtenerUsuarios() {
-        return usuarioService.obtenerUsuarios();
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<ObtenerUsuarioResponse> usuariosResponse =
+                UsuarioMapper.listaUsuarioHaciaListaObtenerUsuarioResponse(usuarios);
+        return usuariosResponse;
     }
 
     @GetMapping("/{id}")
