@@ -1,10 +1,12 @@
 package co.edu.usbcali.dysoweb_java.domain;
+
 import co.edu.usbcali.dysoweb_java.domain.enums.VisibilidadPerfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnTransformer;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 public class Perfil {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -40,6 +42,7 @@ public class Perfil {
     private String enlace;
 
     @Column(name = "visibilidad", nullable = false)
+    @ColumnTransformer(write = "?::visibilidad_perfil")
     private VisibilidadPerfil visibilidad;
 
     @Column(name = "created_at", nullable = false)
