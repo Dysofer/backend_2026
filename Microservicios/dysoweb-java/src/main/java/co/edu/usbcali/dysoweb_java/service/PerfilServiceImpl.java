@@ -59,6 +59,10 @@ public class PerfilServiceImpl implements PerfilService {
         if (crearPerfilRequest.usuarioId() == null || crearPerfilRequest.usuarioId() <= 0) {
             throw new Exception("El id del usuario no puede ser nulo, ni inferior o igual a cero");
         }
+        // Validar que el usuario no tenga ya un perfil (uq_perfiles_usuario_id)
+        if (perfilRepository.existsByUsuario_Id(crearPerfilRequest.usuarioId())) {
+            throw new Exception("El usuario ya tiene un perfil creado");
+        }
 
         // Validar que el usuario exista
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(crearPerfilRequest.usuarioId());
@@ -66,9 +70,9 @@ public class PerfilServiceImpl implements PerfilService {
             throw new Exception("No se ha encontrado el Usuario con el id: " + crearPerfilRequest.usuarioId());
         }
 
-        // Validar que el usuario no tenga ya un perfil (uq_perfiles_usuario_id)
-        if (perfilRepository.existsByUsuario_Id(crearPerfilRequest.usuarioId())) {
-            throw new Exception("El usuario ya tiene un perfil creado");
+        // Validar nombre
+        if (crearPerfilRequest.nombre() == null || crearPerfilRequest.nombre().isBlank()){
+            throw new Exception("El nombre no debe ser nulo");
         }
 
         // Validar/convertir la visibilidad (si no viene, se usa PUBLICO, igual que el default de la BD)

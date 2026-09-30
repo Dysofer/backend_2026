@@ -27,7 +27,7 @@ public class UsuarioController {
         return "pong";
     }
 
-    @GetMapping("/validar-stado")
+    @GetMapping("/validar-estado")
     String validarEstado() {
         return "ok";
     }
