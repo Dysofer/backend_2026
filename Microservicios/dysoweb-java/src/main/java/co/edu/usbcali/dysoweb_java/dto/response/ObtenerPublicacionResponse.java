@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public record ObtenerPublicacionResponse(
+public record ObtenerPublicacionResponse (
         Integer id,
         @JsonProperty("autor_username") String autorUsername,
         @JsonProperty("autor_id") Integer autorId,
         String contenido,
         @JsonProperty("privacidad_publicacion") String privacidadPublicacion,
         @JsonProperty("created_at") LocalDateTime createdAt,
-        @JsonProperty("upated_at") LocalDateTime updatedAt
+        @JsonProperty("updated_at") LocalDateTime updatedAt,
+        @JsonProperty("deleted_at") LocalDateTime deletedAt, Boolean eliminado
 ) {
+
 }

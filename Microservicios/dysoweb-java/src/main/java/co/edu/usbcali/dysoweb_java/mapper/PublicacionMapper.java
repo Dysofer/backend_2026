@@ -8,32 +8,47 @@ import co.edu.usbcali.dysoweb_java.dto.response.ObtenerPublicacionResponse;
 import java.util.List;
 
 public class PublicacionMapper {
+
     public static ObtenerPublicacionResponse publicacionAObtenerPublicacionResponse(Publicacion publicacion) {
-        // Declaración e inicialización del DTO Response
-        ObtenerPublicacionResponse publicacionResponse = new ObtenerPublicacionResponse(
+        // Pre-calculamos la información del autor para mayor claridad
+        boolean poseeAutor = (publicacion.getAutor() != null);
+        String nombreUsuarioAutor = poseeAutor ? publicacion.getAutor().getUsername() : "";
+        Integer identificadorAutor = poseeAutor ? publicacion.getAutor().getId() : null;
+
+        // Convertimos el enum a String
+        String modoPrivacidad = String.valueOf(publicacion.getPrivacidad());
+
+        // Evaluamos el campo eliminado
+        boolean estaEliminado = publicacion.getDeletedAt() != null;
+
+        return new ObtenerPublicacionResponse(
                 publicacion.getId(),
-                // if ternario para validar que venga la información del autor
-                publicacion.getAutor() != null ? publicacion.getAutor().getUsername() : "",
-                // if ternario para validar que venga la información del autor
-                publicacion.getAutor() != null ? publicacion.getAutor().getId() : null,
+                nombreUsuarioAutor,
+                identificadorAutor,
                 publicacion.getContenido(),
-                publicacion.getPrivacidad().toString(),
+                modoPrivacidad,
                 publicacion.getCreatedAt(),
-                publicacion.getUpdatedAt()
+                publicacion.getUpdatedAt(),
+                publicacion.getDeletedAt(),
+                estaEliminado // <--- 9no parámetro requerido
         );
-        // Retorno del Response
-        return publicacionResponse;
     }
 
     public static List<ObtenerPublicacionResponse> listaPublicacionesHaciaListaObtenerPublicacionesResponse(List<Publicacion> publicaciones) {
-        return publicaciones.stream().map(PublicacionMapper::publicacionAObtenerPublicacionResponse).toList();
+        // Expresión lambda directa en lugar de referencia a método
+        return publicaciones.stream()
+                .map(item -> publicacionAObtenerPublicacionResponse(item))
+                .toList();
     }
 
     public static Publicacion crearPublicacionRequestAPublicacion(CrearPublicacionRequest publicacionRq) {
-        Publicacion publicacion = Publicacion.builder()
+        PrivacidadPublicacion enumPrivacidad = PrivacidadPublicacion.getPrivacidadPublicacion(publicacionRq.privacidadPublicacion());
+
+        Publicacion entidadPublicacion = Publicacion.builder()
                 .contenido(publicacionRq.contenido())
-                .privacidad(PrivacidadPublicacion.getPrivacidadPublicacion(publicacionRq.privacidadPublicacion()))
+                .privacidad(enumPrivacidad)
                 .build();
-        return publicacion;
+
+        return entidadPublicacion;
     }
 }
