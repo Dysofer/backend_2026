@@ -20,5 +20,12 @@ public interface PublicacionService {
     // Método para modificar una publicación existente en bases de datos
     ObtenerPublicacionResponse modificarPublicacion(Integer id, ModificarPublicacionRequest modificarPublicacionRequest) throws Exception;
 
+    //Método para eliminar logicamente
     void eliminarPublicacion(Integer id) throws Exception;
+
+    //Método para eliminar fisicamente
+    void eliminarPublicacionFisicamente(Integer id) throws Exception;
+
+    // Método recuperar publicacion
+    ObtenerPublicacionResponse recuperarPublicacionPorId(Integer id) throws Exception;
 }

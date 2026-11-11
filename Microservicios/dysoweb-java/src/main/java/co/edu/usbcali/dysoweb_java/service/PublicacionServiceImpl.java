@@ -169,4 +169,56 @@ public class PublicacionServiceImpl implements PublicacionService {
         publicacionAEliminar.setDeletedAt(LocalDateTime.now());
         publicacionRepository.save(publicacionAEliminar);
     }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void eliminarPublicacionFisicamente(Integer id) throws Exception {
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        if (id <= 0) {
+            throw new Exception("El valor del id no puede ser inferior o igual a cero para eliminar");
+        }
+
+        Publicacion publicacionAEliminar = publicacionRepository.findById(id)
+                .orElseThrow(() -> new Exception("No existe la publicación con el id: " + id + "."));
+
+        publicacionRepository.delete(publicacionAEliminar);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public ObtenerPublicacionResponse recuperarPublicacionPorId(Integer id) throws Exception {
+
+        // Validacion de que el id no sea nulo
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        // Validacion de que el id no sea igual a 0
+        if (id <= 0) {
+            throw new Exception("El valor del id no puede ser inferior o igual a cero para eliminar");
+        }
+
+        // Implementacion para recuperar publicacion
+        Publicacion publicacionARecuperar = publicacionRepository.findById(id)
+                .orElseThrow(() -> new Exception("No existe la publicación con el id: " + id + "."));
+
+        // Validacion para saber que la publicacion no se encuentra eliminada
+        // Se pone nulo ya que cuando se hace el proceso de eliminacion el deleteAt debe tener valor para definir su estado eliminado
+        if (publicacionARecuperar.getDeletedAt() == null) {
+            throw new Exception("La publicación no se encuentra eliminada");
+        }
+
+        //Actualizacion para recuperar una publicacion
+        publicacionARecuperar.setDeletedAt(null);
+        publicacionARecuperar.setUpdatedAt(LocalDateTime.now());
+
+        //Guarda el nuevo estado de la publicacion, es decir, publicacion recuperada
+        Publicacion publicacionRecuperada = publicacionRepository.save(publicacionARecuperar);
+
+        //Devuelve el objeto en forma response
+        return PublicacionMapper.publicacionAObtenerPublicacionResponse(publicacionRecuperada);
+    }
 }

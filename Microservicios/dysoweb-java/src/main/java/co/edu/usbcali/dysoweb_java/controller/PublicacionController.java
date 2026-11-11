@@ -49,4 +49,18 @@ public class PublicacionController {
         publicacionService.eliminarPublicacion(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/eliminar/{id}/fisico")
+    public ResponseEntity<Void> eliminarPublicacionFisicamente(@PathVariable Integer id) throws Exception {
+        publicacionService.eliminarPublicacionFisicamente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/recuperar/{id}")
+    public ResponseEntity<ObtenerPublicacionResponse> recuperarPublicacionPorId(
+            @PathVariable Integer id) throws Exception {
+
+        ObtenerPublicacionResponse publicacionRecuperada = publicacionService.recuperarPublicacionPorId(id);
+        return ResponseEntity.ok(publicacionRecuperada);
+    }
 }
